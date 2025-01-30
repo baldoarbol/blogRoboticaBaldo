@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Bienvenido a mi blog oscuro"
+title: "Blog para Robótica de Baldo"
 ---
 
 # 📖 Últimos Posts 📖
