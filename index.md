@@ -3,7 +3,7 @@ layout: default
 title: "Blog para Robótica de Baldo"
 ---
 
-# 📖 Últimos Posts 📖
+# 📌 Últimos Posts
 
 <ul>
   {% for post in paginator.posts %}
