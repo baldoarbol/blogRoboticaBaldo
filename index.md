@@ -12,5 +12,3 @@ title: "Blog para Robótica de Baldo"
     </li>
   {% endfor %}
 </ul>
-
----
