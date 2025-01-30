@@ -4,66 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Blog</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #121212;
-            color: #e0e0e0;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-        }
-        .post {
-            background: #1e1e1e;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-        }
-        h1 {
-            color: #ffffff;
-        }
-        h2 {
-            color: #bb86fc;
-        }
-        a {
-            color: #03dac6;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Mi Blog</h1>
-        <div id="posts"></div>
-    </div>
-
-    <script>
-        async function loadCSV() {
-            const response = await fetch('posts.csv');
-            const data = await response.text();
-            const rows = data.split('\n').slice(1);
-
-            let html = '';
-            rows.forEach(row => {
-                const cols = row.split(',');
-                if (cols.length >= 2) {
-                    const title = cols[0].trim();
-                    const content = cols[1].trim();
-                    html += `<div class="post"><h2>${title}</h2><p>${content}</p></div>`;
-                }
-            });
-            document.getElementById('posts').innerHTML = html;
-        }
-
-        loadCSV();
-    </script>
+    <header>
+        <h1>Mi Blog Personal</h1>
+        <p>Un espacio para compartir ideas y conocimientos</p>
+    </header>
+    
+    <main>
+        <section id="posts">
+            <article class="post">
+                <h2><a href="posts/post1.html">Título del Post 1</a></h2>
+                <p class="meta">Publicado el 30 de enero de 2025 | <span class="tags">#Desarrollo #Tecnología</span></p>
+            </article>
+            <article class="post">
+                <h2><a href="posts/post2.html">Título del Post 2</a></h2>
+                <p class="meta">Publicado el 25 de enero de 2025 | <span class="tags">#CSS #Diseño</span></p>
+            </article>
+        </section>
+    </main>
 </body>
 </html>
