@@ -3,7 +3,7 @@ layout: default
 title: "Bienvenido a mi blog oscuro"
 ---
 
-# 📖 Últimos Posts
+# 📖 Últimos Posts 📖
 
 <ul>
   {% for post in site.posts %}
