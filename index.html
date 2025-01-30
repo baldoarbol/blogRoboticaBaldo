@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Blog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .post {
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mi Blog</h1>
+    <div id="posts"></div>
+
+    <script>
+        async function loadCSV() {
+            const response = await fetch('posts.csv');
+            const data = await response.text();
+            const rows = data.split('\n').slice(1);
+
+            let html = '';
+            rows.forEach(row => {
+                const cols = row.split(',');
+                if (cols.length >= 2) {
+                    const title = cols[0].trim();
+                    const content = cols[1].trim();
+                    html += `<div class="post"><h2>${title}</h2><p>${content}</p></div>`;
+                }
+            });
+            document.getElementById('posts').innerHTML = html;
+        }
+
+        loadCSV();
+    </script>
+</body>
+</html>
