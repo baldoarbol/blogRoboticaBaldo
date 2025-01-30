@@ -1,3 +1,6 @@
-theme: minima
-title: Mi Blog en GitHub Pages
-description: Un blog sencillo usando GitHub Pages y Jekyll.
+title: "Mi Blog Oscuro"
+description: "Un blog con estilo oscuro usando Jekyll y GitHub Pages"
+theme: jekyll-theme-hacker
+paginate: 5
+plugins:
+  - jekyll-paginate
