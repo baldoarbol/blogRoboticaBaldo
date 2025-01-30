@@ -6,25 +6,44 @@
     <title>Mi Blog</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
+            background-color: #121212;
+            color: #e0e0e0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
         }
         .post {
-            background: white;
-            padding: 15px;
+            background: #1e1e1e;
+            padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
         h1 {
-            text-align: center;
+            color: #ffffff;
+        }
+        h2 {
+            color: #bb86fc;
+        }
+        a {
+            color: #03dac6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h1>Mi Blog</h1>
-    <div id="posts"></div>
+    <div class="container">
+        <h1>Mi Blog</h1>
+        <div id="posts"></div>
+    </div>
 
     <script>
         async function loadCSV() {
