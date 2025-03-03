@@ -15,7 +15,23 @@
     <main>
         <article>
             <p>
-                ...
+                After confirming the proper operation of the PID controller on the holonomic car, it is time to move on to the Ackermann model. This vehicle type exhibits more oscillatory behavior because its steering axis does not align with the center of the platform, making the system inherently more unstable and “nervous.”
+
+                <br><br>Initially, it is advisable to set a moderate speed and choose appropriate values for Kp, Ki and Kd in order to minimize oscillations. However, even when using conservative speed and steering angles, the Ackermann car tends to respond abruptly to sudden changes in its environment.
+            
+                <br><br>To smooth out the control, a “dead zone” is introduced in the actuator calculation. This dead zone defines an error threshold below which no correction is applied, preventing the car from constantly compensating for small deviations that do not significantly affect driving. Although this feature was not crucial for the holonomic car, it proves very helpful in improving the Ackermann car’s stability and thus becomes an important parameter to consider for optimal performance.
+
+                <!-- <Dead Zone Figure>  -->
+                
+                <br><br>Another key difference from the holonomic model is the placement of the camera, which is slightly shifted to the right relative to the vehicle’s center. As a result, even when the car is truly centered in its lane, the image may display a larger deviation than is actually present. To address this, an offset is computed at the start of the run: every time the error is measured, it is adjusted by that offset to accurately reflect the car’s true position.
+
+                <!-- <Camera Offset figure Figure>  -->
+                
+                <br><br>Additionally, when the car goes off the road and loses sight of the red line, a “control void” arises because the PID controller no longer receives error data. To avoid this situation, an automatic recovery maneuver is implemented: the car reverses and steers in the opposite direction of the last recorded error. This method typically allows the car to return to the track at the same point where it left, effectively regaining the red line most of the time.
+
+                <!-- <Return to road demo video>  -->
+                
+                <br><br>These adjustments make the Ackermann car more robust, although it remains more prone to oscillations than the holonomic car. Achieving very high speeds is still challenging without encountering abrupt movements. For this reason, on-screen debugging tools are used to visualize, in real time, variables such as speed, steering angle, “straightness” value, and error. The ultimate goal is to find the optimal combination of speed, Kp, Kim Kd, dead zone size, and “straightness” threshold that yields the best possible performance for the vehicle. 
             </p>
         </article>
         <button onclick="window.location.href='../index.html'">Go back to main page</button>
