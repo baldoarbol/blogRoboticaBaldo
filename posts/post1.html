@@ -15,6 +15,32 @@
         <article>
             <p>
                 We begin our first lab assignment, which involves programming the visual control of a car by using a camera and a PID controller.
+
+                A PID controller (Proportional-Integral-Derivative) is a classic control method that adjusts a system’s response based on the deviation (error) between the current position and the desired position. The Proportional term (<i>Kp</i>) determines the immediate correction based on the current error, the Integral term (<i>Ki</i>) accounts for the accumulation of past errors to correct persistent deviations, and the Derivative term (<i>Kd</i>) anticipates the future trend of the error. In the case of a line-follower, the PID is responsible for keeping the vehicle on track by adjusting both steering and speed to compensate for any deviation.
+
+                <!-- <PID-Figure>  -->
+
+                For this assignment, we will use the simulation platform provided by the Unibotics website. Although the final project requires using an Ackerman car model, I decided to start with a holonomic car to get comfortable with visual control, as it is simpler and more stable.
+
+                The visual control will be based on a color mask for following a red line. We will capture the camera’s image and process it with OpenCV to find the centroid of the region that meets the red color condition (the “red mask”). Then, the error is defined as the horizontal deviation between the center of the image and the centroid of the red mask.
+
+                <!-- <Color mask and get center image>  -->
+
+                To enhance stability, we focus only on the top portion of the mask. This allows us to obtain a higher centroid, reducing oscillation and enabling earlier detection of turns.
+
+                The first step is to implement a basic controller for the “steering wheel” (steering angle), keeping the speed fixed. In this initial controller, the horizontal error dictates the steering wheel rotation in the opposite direction of the detected deviation. We then adjust the <i>Kp</i>, <i>Ki</i> and <i>Kd</i> parameters so that the car can complete the circuit without excessive oscillation
+
+                <!-- <Holonomic with fixed speed>  -->
+            
+                Once the steering works correctly, we introduce a second controller for the speed. In this case, the error will reduce the speed when the deviation is significant, thus improving stability on sharp turns and during large deviations. We tune the parameters to allow a higher speed when the error is small but remain cautious when the error increases.
+            
+                <!-- <Holonomic with variable speed>  -->
+
+                Finally, to further refine the system, we add a third pair of controllers (also for steering and speed) that activate during turns. These controllers will act more aggressively in speed but with a smaller steering angle, avoiding abrupt oscillations. The criterion for determining whether the car is on a straight or a turn involves comparing two centroids of the red mask at different image heights: the more vertically aligned they are, the higher the likelihood that the car is on a straight path. Once a certain “straightness” threshold is reached, we switch between controllers.
+
+                <!-- <Holonomic with two controllers>  -->
+                
+                With all these adjustments, the holonomic car can complete the basic circuit in about one minute with minimal oscillations. Since the graded assignment focuses on the Ackerman model, I am now concluding the holonomic car section and will proceed to apply these principles (with the necessary adaptations) to the Ackerman car.
             </p>
         </article>
         <button onclick="window.location.href='../index.html'">Go back to main page</button>
