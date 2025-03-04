@@ -53,35 +53,36 @@
                     <p class="pie-de-foto">A block diagram of a PID controller</p>
                 </div>
 
-                <br><br>For this assignment, we will use the simulation platform provided by the Unibotics website. Although the final project requires using an Ackerman car model, I decided to start with a holonomic car to get comfortable with visual control, as it is simpler and more stable.
+                <br>For this assignment, we will use the simulation platform provided by the Unibotics website. Although the final project requires using an Ackerman car model, I decided to start with a holonomic car to get comfortable with visual control, as it is simpler and more stable.
 
                 <br><br>The visual control will be based on a color mask for following a red line. We will capture the camera’s image and process it with OpenCV to find the centroid of the region that meets the red color condition (the “red mask”). Then, the error is defined as the horizontal deviation between the center of the image and the centroid of the red mask.
 
-                <div class="contenedor-imagen">
+                <br><br><div class="contenedor-imagen">
                     <img src="../img/mask.png" alt="Red color mask, image center and target point" class="imagen-centrada" width="497" height="280">
                     <p class="pie-de-foto">Red color mask (white), image center (blue) and target point (green)</p>
                 </div>
 
-                <br><br>To enhance stability, we focus only on the top portion of the mask. This allows us to obtain a higher centroid, reducing oscillation and enabling earlier detection of turns.
+                <br>To enhance stability, we focus only on the top portion of the mask. This allows us to obtain a higher centroid, reducing oscillation and enabling earlier detection of turns.
 
                 <br><br>The first step is to implement a basic controller for the “steering wheel” (steering angle), keeping the speed fixed. In this initial controller, the horizontal error dictates the steering wheel rotation in the opposite direction of the detected deviation. We then adjust the <i>Kp</i>, <i>Ki</i> and <i>Kd</i> parameters so that the car can complete the circuit without excessive oscillation. <br>
 
-                <div style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/kYhjJu9AVCs?si=J53D4zdtUvpkUdZA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                <br><br><div style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/kYhjJu9AVCs?si=J53D4zdtUvpkUdZA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
             
-                <br><br>Once the steering works correctly, we introduce a second controller for the speed. In this case, the error will reduce the speed when the deviation is significant, thus improving stability on sharp turns and during large deviations. We tune the parameters to allow a higher speed when the error is small but remain cautious when the error increases. <br>
+                <br><br>Once the steering works correctly, we introduce a second controller for the speed. In this case, the error will reduce the speed when the deviation is significant, thus improving stability on sharp turns and during large deviations. We tune the parameters to allow a higher speed when the error is small but remain cautious when the error increases.
 
             
-                <div style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/Qe8YjJxBz4o?si=yopE2I4ui4qubgaL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                <br><br><div style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/Qe8YjJxBz4o?si=yopE2I4ui4qubgaL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
                 
-                <br><br>Finally, to further refine the system, we add a third pair of controllers (also for steering and speed) that activate during turns. These controllers will act more aggressively in speed but with a smaller steering angle, avoiding abrupt oscillations. The criterion for determining whether the car is on a straight or a turn involves comparing two centroids of the red mask at different image heights: the more vertically aligned they are, the higher the likelihood that the car is on a straight path. Once a certain “straightness” threshold is reached, we switch between controllers. <br>
+                <br>Finally, to further refine the system, we add a third pair of controllers (also for steering and speed) that activate during turns. These controllers will act more aggressively in speed but with a smaller steering angle, avoiding abrupt oscillations. The criterion for determining whether the car is on a straight or a turn involves comparing two centroids of the red mask at different image heights: the more vertically aligned they are, the higher the likelihood that the car is on a straight path. Once a certain “straightness” threshold is reached, we switch between controllers.
 
 
-                <div style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/8mfKxnASaEQ?si=xczituYIOjqwS9BV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                <br><br><div style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/8mfKxnASaEQ?si=xczituYIOjqwS9BV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
                 
-                <br><br>With all these adjustments, the holonomic car can complete the basic circuit in about one minute with minimal oscillations. Since the graded assignment focuses on the Ackerman model, I am now concluding the holonomic car section and will proceed to apply these principles (with the necessary adaptations) to the Ackerman car.
+                <br>With all these adjustments, the holonomic car can complete the basic circuit in about one minute with minimal oscillations. Since the graded assignment focuses on the Ackerman model, I am now concluding the holonomic car section and will proceed to apply these principles (with the necessary adaptations) to the Ackerman car.
             </p>
-        <button onclick="window.location.href='../index.html'">Go back to main page</button>
+<button onclick="window.location.href='../index.html'">Go back to main page</button>
         </article>
+        
     </main>
 </body>
 </html>
