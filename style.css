@@ -35,7 +35,7 @@ main {
 }
 
 p {
-    max-width: 600px; /* Ajusta este valor según prefieras */
+    max-width: 200px; /* Ajusta este valor según prefieras */
     margin: 0 auto; /* Centra horizontalmente */
     text-align: justify; /* Opcional: justificar el texto */
 }
