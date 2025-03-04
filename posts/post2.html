@@ -32,7 +32,12 @@
                 After confirming the proper operation of the PID controller on the holonomic car, it is time to move on to the Ackermann model. This vehicle type exhibits more oscillatory behavior because its steering axis does not align with the center of the platform, making the system inherently more unstable and “nervous.”
 
                 <br><br>Initially, it is advisable to set a moderate speed and choose appropriate values for Kp, Ki and Kd in order to minimize oscillations. However, even when using conservative speed and steering angles, the Ackermann car tends to respond abruptly to sudden changes in its environment.
-            
+
+                <div class="contenedor-imagen">
+                    <img src="../img/ackermann-unstable.gif" alt="Ackermann shakiness with conservative speed and steering angles" class="imagen-centrada" width="497" height="280">
+                    <p class="pie-de-foto">Ackermann shakiness with conservative speed and steering angles</p>
+                </div>
+                
                 <br><br>To smooth out the control, a “dead zone” is introduced in the actuator calculation. This dead zone defines an error threshold below which no correction is applied, preventing the car from constantly compensating for small deviations that do not significantly affect driving. Although this feature was not crucial for the holonomic car, it proves very helpful in improving the Ackermann car’s stability and thus becomes an important parameter to consider for optimal performance.
 
                 <!-- <Dead Zone Figure>  -->
