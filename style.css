@@ -34,6 +34,13 @@ main {
     color: #b0b0b0;
 }
 
+p {
+    max-width: 600px; /* Ajusta este valor según prefieras */
+    margin: 0 auto; /* Centra horizontalmente */
+    text-align: justify; /* Opcional: justificar el texto */
+}
+
+
 .tags {
     color: #4caf50;
 }
