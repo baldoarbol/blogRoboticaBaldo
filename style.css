@@ -34,8 +34,8 @@ main {
     color: #b0b0b0;
 }
 
-p {
-    max-width: 200px; /* Ajusta este valor según prefieras */
+article {
+    max-width: 800px; /* Ajusta este valor según prefieras */
     margin: 0 auto; /* Centra horizontalmente */
     text-align: justify; /* Opcional: justificar el texto */
 }
