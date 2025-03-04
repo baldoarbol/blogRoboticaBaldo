@@ -47,11 +47,14 @@
                 
                 <br><br>Another key difference from the holonomic model is the placement of the camera, which is slightly shifted to the right relative to the vehicle’s center. As a result, even when the car is truly centered in its lane, the image may display a larger deviation than is actually present. To address this, an offset is computed at the start of the run: every time the error is measured, it is adjusted by that offset to accurately reflect the car’s true position.
 
-                <!-- <Camera Offset figure Figure>  -->
+                <div class="contenedor-imagen">
+                    <img src="../img/camera-offset.png" alt="Camera Offset Correction" class="imagen-centrada" width="497" height="280">
+                    <p class="pie-de-foto">Camera Offset Correction</p>
+                </div>
                 
                 <br><br>Additionally, when the car goes off the road and loses sight of the red line, a “control void” arises because the PID controller no longer receives error data. To avoid this situation, an automatic recovery maneuver is implemented: the car reverses and steers in the opposite direction of the last recorded error. This method typically allows the car to return to the track at the same point where it left, effectively regaining the red line most of the time.
 
-                <!-- <Return to road demo video>  -->
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/Qek9115Wcak?si=IhYRnyjTxzoZFKND" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 
                 <br><br>These adjustments make the Ackermann car more robust, although it remains more prone to oscillations than the holonomic car. Achieving very high speeds is still challenging without encountering abrupt movements. For this reason, on-screen debugging tools are used to visualize, in real time, variables such as speed, steering angle, “straightness” value, and error. The ultimate goal is to find the optimal combination of speed, Kp, Kim Kd, dead zone size, and “straightness” threshold that yields the best possible performance for the vehicle. 
             </p>
