@@ -38,28 +38,29 @@
                     <p class="pie-de-foto">Ackermann shakiness with conservative speed and steering angles</p>
                 </div>
                 
-                <br><br>To smooth out the control, a “dead band” is introduced in the actuator calculation. This dead zone defines an error threshold below which no correction is applied, preventing the car from constantly compensating for small deviations that do not significantly affect driving. Although this feature was not crucial for the holonomic car, it proves very helpful in improving the Ackermann car’s stability and thus becomes an important parameter to consider for optimal performance.
+                <br>To smooth out the control, a “dead band” is introduced in the actuator calculation. This dead zone defines an error threshold below which no correction is applied, preventing the car from constantly compensating for small deviations that do not significantly affect driving. Although this feature was not crucial for the holonomic car, it proves very helpful in improving the Ackermann car’s stability and thus becomes an important parameter to consider for optimal performance.
 
-                <div class="contenedor-imagen">
-                    <img src="../img/deadband.png" alt="Deadband applied on PID controller" class="imagen-centrada" width="348" height="127">
+                <br><br><div class="contenedor-imagen">
+                    <img src="../img/deadband.png" alt="Deadband applied on PID controller" class="imagen-centrada" width="487" height="177">
                     <p class="pie-de-foto">Deadband applied on PID controller</p>
                 </div>
                 
-                <br><br>Another key difference from the holonomic model is the placement of the camera, which is slightly shifted to the right relative to the vehicle’s center. As a result, even when the car is truly centered in its lane, the image may display a larger deviation than is actually present. To address this, an offset is computed at the start of the run: every time the error is measured, it is adjusted by that offset to accurately reflect the car’s true position.
+                <br>Another key difference from the holonomic model is the placement of the camera, which is slightly shifted to the right relative to the vehicle’s center. As a result, even when the car is truly centered in its lane, the image may display a larger deviation than is actually present. To address this, an offset is computed at the start of the run: every time the error is measured, it is adjusted by that offset to accurately reflect the car’s true position.
 
-                <div class="contenedor-imagen">
+                <br><br><div class="contenedor-imagen">
                     <img src="../img/camera-offset.png" alt="Camera Offset Correction" class="imagen-centrada" width="497" height="280">
                     <p class="pie-de-foto">Camera Offset Correction</p>
                 </div>
                 
-                <br><br>Additionally, when the car goes off the road and loses sight of the red line, a “control void” arises because the PID controller no longer receives error data. To avoid this situation, an automatic recovery maneuver is implemented: the car reverses and steers in the opposite direction of the last recorded error. This method typically allows the car to return to the track at the same point where it left, effectively regaining the red line most of the time.
+                <br>Additionally, when the car goes off the road and loses sight of the red line, a “control void” arises because the PID controller no longer receives error data. To avoid this situation, an automatic recovery maneuver is implemented: the car reverses and steers in the opposite direction of the last recorded error. This method typically allows the car to return to the track at the same point where it left, effectively regaining the red line most of the time.
 
-                <div style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/Qek9115Wcak?si=IhYRnyjTxzoZFKND" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                <br><br><div style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/Qek9115Wcak?si=IhYRnyjTxzoZFKND" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
                 
-                <br><br>These adjustments make the Ackermann car more robust, although it remains more prone to oscillations than the holonomic car. Achieving very high speeds is still challenging without encountering abrupt movements. For this reason, on-screen debugging tools are used to visualize, in real time, variables such as speed, steering angle, “straightness” value, and error. The ultimate goal is to find the optimal combination of speed, Kp, Kim Kd, dead zone size, and “straightness” threshold that yields the best possible performance for the vehicle. 
+                <br>These adjustments make the Ackermann car more robust, although it remains more prone to oscillations than the holonomic car. Achieving very high speeds is still challenging without encountering abrupt movements. For this reason, on-screen debugging tools are used to visualize, in real time, variables such as speed, steering angle, “straightness” value, and error. The ultimate goal is to find the optimal combination of speed, Kp, Kim Kd, dead zone size, and “straightness” threshold that yields the best possible performance for the vehicle. 
             </p>
+	<button onclick="window.location.href='../index.html'">Go back to main page</button>
         </article>
-        <button onclick="window.location.href='../index.html'">Go back to main page</button>
+        
     </main>
 </body>
 </html>
