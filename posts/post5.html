@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baldo's Robotic Vision Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../img/favicon.png">
+    <style>
+        .contenedor-imagen {
+            text-align: center;
+        }
+        .imagen-centrada {
+            display: block;
+            margin: 0 auto;
+        }
+        .pie-de-foto {
+            font-size: 14px;
+            color: #969090;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>3D Reconstruction: Triangulation</h1>
+        <p class="meta">April 11, 2025 | <span class="tags">#3D-Reconstruction #Triangulation</span></p>
+    </header>
+    <main>
+        <article>
+            <button onclick="window.location.href='./post4.html'">◄◄ Previous Post</button>
+		    <button onclick="window.location.href='../index.html'">⌂ Main Page</button>
+            <p>
+                Once a pair of corresponding pixels is identified, the algorithm proceeds to <strong>triangulate</strong> the 3D point they represent.
+                Each 2D pixel is backprojected into the 3D world space, producing two 3D points: one in the left camera’s coordinate system and one in the right.
+                By subtracting the optical center of each camera from its backprojected point, two direction vectors (rays) are defined—each one pointing toward the estimated location of the 3D feature.
+
+                <br><br><div class="contenedor-imagen">
+                    <img src="../img/triangulation_principles.png" alt="Basic triangulation using two cameras" class="imagen-centrada" width="480" height="280">
+                    <p class="pie-de-foto">Basic triangulation using two cameras</p>
+                </div>
+
+                <br>
+                These rays usually do not intersect due to noise or measurement inaccuracies, so the algorithm calculates the <strong>shortest distance between them</strong> and uses the midpoint as the estimated 3D location.
+                The two rays are modeled as:
+                <br><br>    
+                <code>L1(t) = O1 + t·d1</code>
+                <br><br>and<br><br>
+                <code>L2(s) = O2 + s·d2</code>,
+                <br><br>
+                where <code>O1</code>  and  <code>O2</code> are the optical centers of the left and right cameras, and <code>d1</code>, <code>d2</code> are the direction vectors.
+                <br>
+                A linear system is solved to find the optimal values for <code>t</code> and <code>s</code> that minimize the distance between the rays.
+                <br>
+                All successfully triangulated points are accumulated and displayed in the 3D viewer using <code>GUI.ShowNewPoints</code>.
+                Each point is colored using the RGB value of its corresponding pixel in the left image, providing a photorealistic point cloud of the reconstructed scene.
+                The algorithm continues in batches of 50 points until all points have been processed.
+		                
+		        <br><br><div style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/BRQtq2Omez8?si=tXAjfiviUJjPAedD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+		
+                <br><br>
+                In a secondary test, an artificial light source was added to the scene to improve image contrast and surface definition.
+                This resulted in more edge points being detected during the Canny step, leading to a denser set of candidate keypoints and ultimately a richer and more detailed 3D reconstruction.
+                The improvement highlights how lighting conditions directly impact feature extraction and the quality of the final model.
+        
+                <br><br><div style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/c0sQQV1buT0?si=e3tXUm-c06q7qaDG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+
+	</p>
+        <button onclick="window.location.href='./post4.html'">◄◄ Previous Post</button>
+		<button onclick="window.location.href='../index.html'">⌂ Main Page</button>
+        </article>
+    </main>
+</body>
+</html>

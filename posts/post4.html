@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baldo's Robotic Vision Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../img/favicon.png">
+    <style>
+        .contenedor-imagen {
+            text-align: center;
+        }
+        .imagen-centrada {
+            display: block;
+            margin: 0 auto;
+        }
+        .pie-de-foto {
+            font-size: 14px;
+            color: #969090;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>3D Reconstruction: Key Points Matching</h1>
+        <p class="meta">April 2, 2025 | <span class="tags">#3D-Reconstruction #Template-Matching</span></p>
+    </header>
+    <main>
+        <article>
+            <button onclick="window.location.href='./post3.html'">◄◄ Previous Post</button>
+		    <button onclick="window.location.href='../index.html'">⌂ Main Page</button>
+		    <button onclick="window.location.href='./post5.html'">►► Next Post</button>
+            <p>
+                The 3D reconstruction process starts by detecting keypoints in the left image using the Canny edge detector.
+                This method provides a dense set of edge points, which are ideal candidates for stereo matching.
+                Once detected, half of the keypoints are randomly discarded to reduce computational load.
+                In each iteration of the algorithm, the 50 highest remaining points (i.e., with the lowest Y coordinates) in the left image are selected for processing.
+                
+                <br><br><div class="contenedor-imagen">
+                    <img src="../img/3drec_keypoints.PNG" alt="Detected keypoints" class="imagen-centrada" width="497" height="280">
+                    <p class="pie-de-foto">Detected keypoints (red) using Canny edge detector</p>
+                </div>
+
+                <br>
+                For each detected point in the left image, the algorithm computes its epipolar line in the right image through a geometric approach.
+                The process begins by converting the 2D point from image (graphic) coordinates to optical coordinates, and then backprojecting it into 3D space.
+                Using the resulting 3D point and the known position of the left camera, a viewing direction vector is computed.
+                An additional point along this viewing ray is then selected to define the epipolar geometry.
+                Both 3D points are projected onto the right camera's image plane, converted back into graphic coordinates, and used to define the slope and intercept of the epipolar line.
+                This line guides the correspondence search in the right image.
+                
+                <br><br><div class="contenedor-imagen">
+                    <img src="../img/3drec_epipolar.PNG" alt="Camera Offset Correction" class="imagen-centrada" width="497" height="280">
+                    <p class="pie-de-foto">Epipolar line in right camera (blue) for the selected point in left camera (red)</p>
+                </div>
+
+                <br>
+                For each left-side keypoint, the algorithm searches for its best match along the epipolar line using a <strong>template matching</strong> strategy.
+                A 11×11 pixel window is extracted around the keypoint in the left image and compared against candidate keypoints in the right image that lie near the epipolar line.
+                Only keypoints previously detected in the right image are considered valid candidates, significantly reducing the search space and improving accuracy.
+                Matching is evaluated using OpenCV's <code>cv2.matchTemplate</code>, which computes a correlation score between the template and each candidate region.
+
+                <br>
+                The search is constrained to a predefined disparity range (typically 80 pixels to the left) to ensure realistic matches.
+                If a match is found with a correlation score above a defined threshold, it is accepted as a valid correspondence.
+                The matching is visually confirmed in real time using <code>GUI.showImageMatching</code>, which draws lines between corresponding points in the stereo pair.
+		               
+                <br><br><div class="contenedor-imagen">
+                    <img src="../img/template_matching.gif" alt="Camera Offset Correction" class="imagen-centrada" width="497" height="280">
+                    <p class="pie-de-foto">Template matching examples</p>
+                </div>		
+	</p>
+        <button onclick="window.location.href='./post3.html'">◄◄ Previous Post</button>
+        <button onclick="window.location.href='../index.html'">⌂ Main Page</button>
+        <button onclick="window.location.href='./post5.html'">►► Next Post</button>
+        </article>
+    </main>
+</body>
+</html>
