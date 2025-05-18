@@ -28,13 +28,148 @@
     </header>
     <main>
         <article>
-            <button onclick="window.location.href='./post5.html'">◄◄ Previous Post</button>
-		    <button onclick="window.location.href='../index.html'">⌂ Main Page</button>
-            <p>
-                
-                ...
+        <button onclick="window.location.href='./post5.html'">◄◄ Previous Post</button>
+		<button onclick="window.location.href='../index.html'">⌂ Main Page</button>
+        
 
-	        </p>
+    <p>
+    This report describes a laboratory exercise in which an autonomous
+    vacuum-cleaner localises itself inside a known map using
+    <strong>visual landmarks</strong> (AprilTags) and wheel
+    <strong>odometry</strong>.
+    Whenever at least one tag is in sight, the robot computes an
+    <em>absolute pose</em> in the world frame; if no tag is detected it drifts
+    using odometry until the next visual update.
+  </p>
+
+  <h2>1. Coordinate Frames</h2>
+
+  <ul>
+    <li><code>tag</code> &nbsp;– frame centred on each AprilTag.</li>
+    <li><code>cam</code> &nbsp;– camera optical frame (OpenCV convention).</li>
+    <li><code>robot</code> – control frame of the vacuum cleaner.</li>
+    <li><code>world</code> – fixed map frame (East-North-Up).</li>
+  </ul>
+
+  <p>
+    A fixed homogeneous transform
+    <code>cam_T_robot&nbsp;&in;&nbsp;SE(3)</code>
+    maps poses from the camera to the robot frame and is applied after every
+    visual estimate so that results are expressed in <em>robot</em> axes.
+  </p>
+
+  <h2>2. AprilTag Detection</h2>
+
+  <ol>
+    <li>The incoming RGB frame is converted to greyscale.</li>
+    <li><code>pyapriltags</code> returns a list of detections.</li>
+    <li>An illustration overlays every detection with a
+        <span style="color:#00a000;font-weight:bold">green square</span>
+        around the tag corners.</li>
+  </ol>
+
+  <br><div class="contenedor-imagen">
+                    <img src="../img/apriltag_detection.PNG" alt="AprilTag detection" class="imagen-centrada" width="480" height="280">
+                    <p class="pie-de-foto">Detected tags are marked with green squares</p>
+                </div>
+
+  <h2>3. Tag Pose via <code>cv2.solvePnP</code></h2>
+
+<p>
+    The camera intrinsic matrix&nbsp;<code>K</code> is obtained directly from
+    ROS 2 with  
+    <code>ros2 topic echo /turtlebot3/camera/camera_info</code>,
+    following the recommendation in  
+    <a href="https://forum.unibotics.org/t/marker-visual-localization/948/8">this forum post</a>.
+  </p>
+
+  <p>
+    For each detected marker, the four pixel corners and a square-corner
+    3-D model feed <code>cv2.solvePnP</code>.  
+    The solver (<code>SOLVEPNP_IPPE_SQUARE</code>) yields
+    <code>tag&nbsp;&rarr;&nbsp;cam</code> rotation- and
+    translation-vectors that are converted to a 4 × 4 matrix
+    <code>tag_T_cam</code>.  Its inverse provides
+    <code>cam_T_tag</code>.
+  </p>
+
+  <h2>4. From Tag Frame to World Frame</h2>
+
+  <p>
+    Each tag’s fixed pose <code>world_T_tag</code>
+    (<em>x, y, z, yaw</em>) is read from a YAML map.  
+    Chaining the two transforms yields the camera pose:
+  </p>
+
+  <pre><code>world_T_cam = world_T_tag · cam_T_tag</code></pre>
+
+  <h2>5. Camera to Robot Frame</h2>
+
+  <p>
+    Finally the pipeline applies <code>cam_T_robot</code> to obtain the robot
+    pose in world coordinates:
+  </p>
+
+  <pre><code>world_T_robot = world_T_cam · cam_T_robot</code></pre>
+
+  <p>
+    The yaw angle is extracted from the robot’s forward axis (first column of
+    the rotation matrix).
+  </p>
+
+  <h2>6. Multi-Tag Fusion</h2>
+
+  <p>
+    When several tags are visible, the position (<em>x, y</em>) and yaw are
+    averaged geometrically and circularly, respectively, producing a single
+    robust pose update.
+  </p>
+
+  <h2>7. Dead-Reckoning Between Detections</h2>
+
+  <ol>
+    <li>Store <em>last visual pose</em> and the accompanying odometry sample
+        whenever tags are seen.</li>
+    <li>While no tag is detected, add the incremental odometry to the stored
+        pose, wrapping yaw to (-π, π].</li>
+  </ol>
+
+  <h2>8. Video Demonstration</h2>
+
+  <p>
+    The accompanying video shows:
+  </p>
+
+  <ul>
+    <li>Map view with the <span style="color:#c00000">robot pose in red</span>,</li>
+    <li>its <span style="color:#00a000">ground-truth trajectory in green</span>,</li>
+    <li>and the <span style="color:#42b3f4">pure odometry track in blue</span>.</li>
+  </ul>
+
+  <p>
+    Overlay text indicates the localisation mode:
+    <strong>“VISUAL&nbsp;ABSOLUTE”</strong>&nbsp;when tags are present and
+    <strong>“ODOM&nbsp;RELATIVE”</strong>&nbsp;otherwise.
+  </p>
+
+  <br><br><div style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/2kWHvVR9BFA?si=lppZJpZQ_EWOgV_v" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+
+  <h2>9. Conclusions</h2>
+
+  <p>
+    The system yields <strong>good pose accuracy</strong>: odometry alone keeps
+    the track consistent over short gaps without tags, and visual fixes snap
+    the robot back when landmarks reappear.  Accuracy drops when tags are
+    detected at long range, as lower image resolution degrades the PnP
+    estimate, but the overall error stays within acceptable limits for a
+    household vacuum cleaner.
+  </p>
+
+  <br><div class="contenedor-imagen">
+                    <img src="../img/result_trajectory.PNG" alt="Result Trajectory" class="imagen-centrada" width="480" height="280">
+                    <p class="pie-de-foto">Calculated location after trajectory made in circles</p>
+                </div>
+
         <button onclick="window.location.href='./post5.html'">◄◄ Previous Post</button>
 		<button onclick="window.location.href='../index.html'">⌂ Main Page</button>
         </article>
